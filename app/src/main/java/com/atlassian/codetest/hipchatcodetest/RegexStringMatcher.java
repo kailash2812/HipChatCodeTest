@@ -28,7 +28,7 @@ public class RegexStringMatcher {
     public static Pattern mentionsPattern = Pattern.compile("@([a-zA-Z_0-9.+]+)");
 
     //Pattern for paranthesis - emoticons
-    public static Pattern emoticonsPattern = Pattern.compile("\\((.*?){0,3}\\)", Pattern.DOTALL);
+    public static Pattern emoticonsPattern = Pattern.compile("\\((\\w{1,15}+)\\)", Pattern.DOTALL);
 
     //Pattern for gathering urls from the input string
     public static Pattern UrlPattern =
@@ -71,8 +71,9 @@ public class RegexStringMatcher {
         JSONArray emoticonsArray = new JSONArray();
 
         while (matcher.find()) {
-            Log.d(TAG, "emoticonsPattern matcher test " + matcher.group(1).toString());
-            emoticonsArray.put(matcher.group(1));
+            if (matcher.group(1) != null) {
+                emoticonsArray.put(matcher.group(1));
+            }
         }
         return emoticonsArray;
     }

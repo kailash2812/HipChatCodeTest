@@ -103,16 +103,16 @@ public class MainFragment extends Fragment {
                                                 titleArray = result;
                                                 for (int i = 0; i < urlsArray.length(); i++) {
                                                     JSONObject obj = new JSONObject();
-                                                    obj.put(URL, urlsArray.get(i).toString().replace("\\",""));
+                                                    obj.put(URL, urlsArray.get(i));
                                                     obj.put(TITLE, titleArray.get(i));
                                                     linksArray.put(obj);
                                                     if (linksArray.length() > 0) {
-                                                        totalObject.put(LINKS,linksArray);
+                                                        totalObject.put(LINKS, linksArray);
                                                     }
                                                 }
                                             }
 
-                                            String output = totalObject.toString(4).replace("\\","");
+                                            String output = totalObject.toString(4).replace("\\", "");
 
                                             outputView.setText(output);
                                         } catch (JSONException e) {
