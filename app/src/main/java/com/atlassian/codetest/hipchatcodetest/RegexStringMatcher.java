@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,12 +33,11 @@ public class RegexStringMatcher {
 
     //Pattern for gathering urls from the input string
     public static Pattern UrlPattern =
-            Pattern.compile("([Hh][tT][tT][pP][sS]?:\\/\\/[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
+            Pattern.compile("\\b(([\\w-]+://?|www[.])[^\\s()<>]+(?:\\([\\w\\d]+\\)|([^[:punct:]\\s]|/)))");
 
     //Pattern for gathering title from the url
     private static final Pattern TITLE_TAG =
             Pattern.compile("\\<title>(.*)\\</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
 
     private static Matcher matcher;
 
@@ -103,11 +103,9 @@ public class RegexStringMatcher {
      */
     public static void getTitles(String input, OnTaskCompleted onTaskCompleted) {
         matcher = UrlPattern.matcher(input);
-        JSONArray urlArray = new JSONArray();
         titleArray = new JSONArray();
         while (matcher.find()) {
             new RetrievePageTitleTask(onTaskCompleted).execute(matcher.group(1));
-            Log.d(TAG, "urls matcher test2 :: " + urlArray.toString());
         }
         return;
     }
@@ -125,9 +123,14 @@ public class RegexStringMatcher {
 
         protected String doInBackground(String... urls) {
             try {
-                URL url = new URL(urls[0]);
+                String url = null;
+                if (!(urls[0].startsWith("http") || urls[0].startsWith("https"))) {
+                    url = "http://" + urls[0];
+                } else {
+                    url = urls[0];
+                }
                 HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet(urls[0]);
+                HttpGet request = new HttpGet(url);
                 // Get the response
                 ResponseHandler<String> responseHandler = new BasicResponseHandler();
                 String response_str = client.execute(request, responseHandler);

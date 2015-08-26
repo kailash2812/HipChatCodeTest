@@ -80,7 +80,6 @@ public class MainFragment extends Fragment {
                         titleArray = new JSONArray();
                         linksArray = new JSONArray();
 
-
                         totalObject = new JSONObject();
                         mentionsArray = RegexStringMatcher.getMentions(inputText);
                         emoticonsArray = RegexStringMatcher.getEmoticons(inputText);
@@ -101,14 +100,15 @@ public class MainFragment extends Fragment {
                                         try {
                                             if (result.length() > 0 && urlsArray.length() > 0) {
                                                 titleArray = result;
+                                                linksArray = new JSONArray();
                                                 for (int i = 0; i < urlsArray.length(); i++) {
                                                     JSONObject obj = new JSONObject();
                                                     obj.put(URL, urlsArray.get(i));
                                                     obj.put(TITLE, titleArray.get(i));
                                                     linksArray.put(obj);
-                                                    if (linksArray.length() > 0) {
-                                                        totalObject.put(LINKS, linksArray);
-                                                    }
+                                                }
+                                                if (linksArray.length() > 0) {
+                                                    totalObject.put(LINKS, linksArray);
                                                 }
                                             }
 

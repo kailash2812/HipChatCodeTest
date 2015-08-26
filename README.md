@@ -4,7 +4,7 @@ Hipchat Code Test
 2) User can enter input string and when the user clicks enter the output returns JSON string with
 special contents (mentions, emoticons, Links)
 3) Assumed any word starts with @  and ends with nonword character as mention and any word in parenthesis
-upto length 15 and any urls which follow this format (http://www.XXXX.com) as links
+upto length 15 and any urls as links
 as stated in problem statement.
 4) Used Pattern Matchers to identify mentions, emoticons , links and titles.
 5) RegexStringMatcher is the helper class in retrieving special contents from the input string
