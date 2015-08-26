@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">HipChatCodeTest</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_input_hint">Enter Input String</string>
+    <string name="enter_string">Enter</string>
+    <string name="title_string">HipChat Code Test</string>
+    <string name="url">url</string>
+    <string name="title">title</string>
+    <string name="mentions">mentions</string>
+    <string name="emoticons">emoticons</string>
+    <string name="links">links</string>
+
+</resources>
