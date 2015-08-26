@@ -11,8 +11,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +22,8 @@ public class RegexStringMatcher {
 
     //Tag for Logging
     private static String TAG = RegexStringMatcher.class.getName();
+
+    public static String HOST_UNRESOLVED = "Unable to resolve host";
 
     //Pattern for gathering @mentiones from the input string
     public static Pattern mentionsPattern = Pattern.compile("@([a-zA-Z_0-9.+]+)");
@@ -107,7 +107,6 @@ public class RegexStringMatcher {
         while (matcher.find()) {
             new RetrievePageTitleTask(onTaskCompleted).execute(matcher.group(1));
         }
-        return;
     }
 
 
@@ -142,14 +141,15 @@ public class RegexStringMatcher {
                  * include line feeds and other uglies) as well
                  * as HTML brackets with a space */
                     return matcher.group(1).replaceAll("[\\s\\<>]+", " ").trim();
-                } else
-                    return null;
+                } else {
+                    return HOST_UNRESOLVED;
+                }
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
             } catch (RuntimeException e) {
                 Log.e(TAG, e.getMessage());
             }
-            return null;
+            return HOST_UNRESOLVED;
         }
 
         protected void onPostExecute(String pageTitle) {
